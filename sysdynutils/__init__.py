@@ -1,1 +1,1 @@
-import sysdyn
+from .sysdyn import *
