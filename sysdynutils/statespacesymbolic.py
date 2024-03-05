@@ -91,13 +91,16 @@ class StateSpaceSymbolic:
 
     def state_forced_response(self, t, u):
         """Returns the forced response of the state vector"""
-        u = sp.Matrix(u)
+        if hasattr(u, "is_symbol"):
+            u = sp.Matrix([u])
+        else:
+            u = sp.Matrix(u)
         Phi = self.state_transition_matrix(t)
-        tau = sp.symbol("tau", real=True)
+        tau = sp.Symbol("tau", real=True)
         x_fo = Phi * sp.integrate(
             Phi.subs(t, -tau) * self.B * u.subs(t, tau), (tau, 0, t)
         )
-        return x_fo.simplify
+        return x_fo.simplify()
 
     def output_forced_response(self, t, u):
         """Returns the forced response of the output vector"""
@@ -137,3 +140,8 @@ class StateSpaceSymbolic:
         """Returns an equivalent Control Systems package control.StateSpace object"""
         A, B, C, D = self.to_numpy(params=params)
         return control.ss(A, B, C, D)
+
+
+def sss(A, B, C, D, E=None, F=None):
+    """Create a StateSpaceSymbolic object"""
+    return StateSpaceSymbolic(A, B, C, D)
