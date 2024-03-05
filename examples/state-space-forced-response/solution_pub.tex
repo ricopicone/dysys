@@ -1,0 +1,156 @@
+\phantomsection\label{72b9b0a6}
+Load Python packages
+
+\phantomsection\label{457e325e}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+import numpy as np
+import sympy as sp
+import matplotlib.pyplot as plt
+import dysys
+from pprint import pprint
+\end{minted}
+
+\phantomsection\label{31f2d103}
+
+\phantomsection\label{c52bb6f0}
+\subsubsection{Define the System}\label{define-the-system}
+
+Define a symbolic state-space matrix using the \mintinline{text}|dysys|
+package as follows:
+
+\phantomsection\label{31f1c682}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+A = [[-4, -3, 0], [0, -8, 4], [0, 0, -1]]
+B = [[0], [1], [0]]
+C = [[0, 1, 0]]
+D = [[0]]
+sys = dysys.sss(A, B, C, D)  # Create a symbolic state-space model
+\end{minted}
+
+\phantomsection\label{9ec9f9a9}
+\subsubsection{Eigenvalues and
+Stability}\label{eigenvalues-and-stability}
+
+The eigenvalue matrix \mintinline{text}|L| can be found via the eig()
+method:
+
+\phantomsection\label{ed6af269}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+L, M = sys.eig()
+print(f"Eigenvalues: {L.diagonal().tolist()}")
+\end{minted}
+
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{text}
+Eigenvalues: [[-8, -4, -1]]
+\end{minted}
+
+\phantomsection\label{f9608925}
+The real parts of the eigenvalues are all negative; therefore, the
+system is asymptotically stable.
+
+\phantomsection\label{bf655b6a}
+\subsubsection{Eigenvectors and the Modal
+Matrix}\label{eigenvectors-and-the-modal-matrix}
+
+The eigenvectors are stored in \mintinline{text}|M|:
+
+\phantomsection\label{cabd61bc}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+print(M)
+\end{minted}
+
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{text}
+Matrix([[3/4, 1, -4/7], [1, 0, 4/7], [0, 0, 1]])
+\end{minted}
+
+\phantomsection\label{1a782013}
+\subsubsection{State Transition Matrix}\label{state-transition-matrix}
+
+The state transition matrix $\Phi(t)$ can be found as follows:
+
+\phantomsection\label{a4b9b93a}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+t = sp.Symbol("t", nonnegative=True)  ## Solution valid for t >= 0
+Phi = sys.state_transition_matrix(t)
+pprint(Phi)
+\end{minted}
+
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{text}
+Matrix([
+[exp(-4*t), -3*exp(-4*t)/4 + 3*exp(-8*t)/4, -4*exp(-t)/7 + exp(-4*t) - 3*exp(-8*t)/7],
+[        0,                      exp(-8*t),              4*exp(-t)/7 - 4*exp(-8*t)/7],
+[        0,                              0,                                  exp(-t)]])
+\end{minted}
+
+\phantomsection\label{fb0f8d0b}
+\subsubsection{Forced State Response}\label{forced-state-response}
+
+The forced state response for $t \ge 0$ can be found as follows:
+
+\phantomsection\label{2adb3ba2}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+u_s = sp.Heaviside(t)
+x_fo = sys.state_forced_response(t, u=u_s)
+pprint(x_fo)
+\end{minted}
+
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{text}
+Matrix([
+[-3/32 + 3*exp(-4*t)/16 - 3*exp(-8*t)/32],
+[                      1/8 - exp(-8*t)/8],
+[                                      0]])
+\end{minted}
+
+\phantomsection\label{532e6346}
+\subsubsection{Forced Output Response}\label{forced-output-response}
+
+\phantomsection\label{971f95db}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+y_fo = sys.output_forced_response(t, u=u_s)
+pprint(y_fo)
+\end{minted}
+
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{text}
+Matrix([[1/8 - exp(-8*t)/8]])
+\end{minted}
+
+\phantomsection\label{f09a6196}
+\subsubsection{Plot the Forced Output
+Response}\label{plot-the-forced-output-response}
+
+First, convert the symbolic expression to a NumPy function:
+
+\phantomsection\label{c02b557d}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+y_fo_fun = sp.lambdify(t, y_fo, "numpy")
+\end{minted}
+
+\phantomsection\label{9d64b860}
+Now create arrays to plot:
+
+\phantomsection\label{be886d32}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+t_ = np.linspace(0, 5, 101)
+y_fo_ = y_fo_fun(t_).flatten()
+\end{minted}
+
+\phantomsection\label{f269af9f}
+Finally, plot:
+
+\phantomsection\label{cfaff726}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+fig, ax = plt.subplots()
+ax.plot(t_, y_fo_)
+ax.set_xlabel("Time (s)")
+ax.set_ylabel("Forced Output Response $y_\\text{fo}$")
+plt.show()
+\end{minted}
+
+\phantomsection\label{6229d772}
+\gdef\graphicslist{}%
+\begin{figure}[htbp]
+\centering
+\includegraphics[]{examples/state-space-forced-response/figure-0.pgf}
+\caption{}
+\label{fig:state-space-forced-response-figure-0}
+\end{figure}
