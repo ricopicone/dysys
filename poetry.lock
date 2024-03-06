@@ -388,14 +388,14 @@ tqdm = ">=4.41.0"
 
 [[package]]
 name = "engcom"
-version = "0.1.8"
+version = "0.1.9"
 description = "Miscellaneous tools for engineering computing"
 category = "main"
 optional = false
 python-versions = ">=3.11"
 files = [
-    {file = "engcom-0.1.8-py3-none-any.whl", hash = "sha256:2c8bfea5c58a87cec3e9b621abfb5423b66239161c59fbee1dd83859c24ce01b"},
-    {file = "engcom-0.1.8.tar.gz", hash = "sha256:61d572d98a857f3ae0942c2c0cc8fcad0fa559418eca3d2272c6766e9d899ff7"},
+    {file = "engcom-0.1.9-py3-none-any.whl", hash = "sha256:56ef4e65339b9e985adab0e29fe9d643c5dbb4c042e83f842d11deba51c47752"},
+    {file = "engcom-0.1.9.tar.gz", hash = "sha256:2a5b4f08fe356f309a81e9be95860a478c134b3c7d48655aa6c3a3e071ab4218"},
 ]
 
 [package.dependencies]
