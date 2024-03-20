@@ -67,19 +67,24 @@ class TransferFunction(control.TransferFunction):
             for tf in tf_factors:
                 tf_from_factors *= tf
             tf_from_factors = tf_from_factors.minreal()
+            print("Is", self, "equal to", tf_from_factors, "?")
+            self_den_0 = np.array(self.den).flatten().astype(np.float64)[0]
             assert(
                 np.allclose(
                     np.array(tf_from_factors.num).flatten(), 
-                    np.array(self.num).flatten().astype(np.float64)
+                    np.array(self.num).flatten().astype(np.float64)/self_den_0
                 )
             )
             assert(
                 np.allclose(
                     np.array(tf_from_factors.den).flatten(),
-                    np.array(self.den).flatten().astype(np.float64)
+                    np.array(self.den).flatten().astype(np.float64)/self_den_0
                 )
             )
+            print("Yep")
         return tf_factors
         
-        
+def tf(*args, **kwargs):
+    """Create a TransferFunction object"""
+    return TransferFunction(*args, **kwargs)    
         
