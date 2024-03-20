@@ -80,7 +80,7 @@ plt.gcf().legend(
 plt.show()
 ```
 
-![A Bode plot of each factor and the composite.](examples/factor-transfer-function/bode.pdf)
+![A Bode plot of each factor and the composite.](examples/factor-transfer-function/bode.svg)
 
 # Issues
 
