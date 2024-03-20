@@ -1,4 +1,7 @@
-# sysdynutils
+![PyPI](https://img.shields.io/pypi/v/dysys?label=pypi%20package)
+![](https://readthedocs.org/projects/dysys/badge/?version=latest&style=flat)
+
+# DySys
 
 A Python package for system dynamics and control systems utilities (using numpy, sympy, and control)
 
@@ -7,7 +10,7 @@ A Python package for system dynamics and control systems utilities (using numpy,
 This package now published on PyPI and can be installed with
 
 ```python
-pip install sysdynutils
+pip install dysys
 ```
 
 # Usage
@@ -15,7 +18,7 @@ pip install sysdynutils
 To import the package into a script, use
 
 ```python
-import sysdynutils as sd
+import dysys as ds
 ```
 
 Create a symbolic state-space model:
@@ -25,7 +28,7 @@ A = [[-4, -3, 0], [0, -8, 4], [0, 0, -1]]
 B = [[0], [1], [0]]
 C = [[0, 1, 0]]
 D = [[0]]
-sys = sd.sss(A, B, C, D)  # Create a symbolic state-space model
+sys = ds.sss(A, B, C, D)  # Create a symbolic state-space model
 ```
 
 Now call
