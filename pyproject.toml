@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dysys"
-version = "0.1.2"
+version = "0.1.3"
 description = "A package for working with system dynamics symbolically and numerically"
 authors = ["Rico Picone <rpicone@stmartin.edu>"]
 license = "MIT"

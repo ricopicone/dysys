@@ -1,4 +1,6 @@
 import sympy as sp
+import numpy as np
+import control
 
 class TransferFunctionSymbolic:
     """Represents a continuous LTI transfer function model in symbolic form"""
@@ -9,6 +11,7 @@ class TransferFunctionSymbolic:
             self.s = s
         else:
             self.s = list(H.free_symbols)[0]
+        self.num, self.den = sp.fraction(H.cancel())
     
     def factor_p(self, p, poles=True):
         p = sp.Poly(p, self.s).factor_list()  # Factored
@@ -61,11 +64,20 @@ class TransferFunctionSymbolic:
         K = Kz * Kp
         factors = factors_p + factors_z
         return K, factors
+        
+    def num_den_lists(self, params: dict = {}):
+        """Returns num and den coefficients as lists"""
+        num, den = self.num, self.den
+        num = np.array(sp.Poly(num.evalf(subs=params), self.s).all_coeffs())
+        den = np.array(sp.Poly(den.evalf(subs=params), self.s).all_coeffs())
+        num = num.astype(float)
+        den = den.astype(float)
+        return num, den
 
     def to_control(self, params: dict = {}):
-        """Returns an equivalent Control Systems package control.StateSpace object"""
-        A, B, C, D = self.to_numpy(params=params)
-        return control.ss(A, B, C, D)
+        """Returns an equivalent Control Systems package control.TransferFunction object"""
+        num, den = self.num_den_lists(params=params)
+        return control.tf(num, den)
 
 
 def tfs(H, s=None):

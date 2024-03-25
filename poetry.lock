@@ -563,14 +563,14 @@ tqdm = ">=4.41.0"
 
 [[package]]
 name = "engcom"
-version = "0.1.20"
+version = "0.1.21"
 description = "Tools for engineering computing"
 category = "main"
 optional = false
 python-versions = ">=3.11"
 files = [
-    {file = "engcom-0.1.20-py3-none-any.whl", hash = "sha256:c9683e8053b3407710a0603c3fd313ce25fd7385af903002a493f08ad00d0f0c"},
-    {file = "engcom-0.1.20.tar.gz", hash = "sha256:d2b63b77b609a4d50c18b0878b4703c88186cb6ee395ebc4ac72d2f9605d7f9e"},
+    {file = "engcom-0.1.21-py3-none-any.whl", hash = "sha256:f788fdffd49a4a40c489416fae1b475c060240f7cd0ce47a6d07f99200702ea1"},
+    {file = "engcom-0.1.21.tar.gz", hash = "sha256:529eef5803130de0aca1ef8a2a7ea646860b11e0cae05958a7157d80136743a0"},
 ]
 
 [package.dependencies]
@@ -1426,14 +1426,14 @@ test = ["flaky", "ipykernel (>=6.19.3)", "ipython", "ipywidgets", "nbconvert (>=
 
 [[package]]
 name = "nbconvert"
-version = "7.16.2"
+version = "7.16.3"
 description = "Converting Jupyter Notebooks (.ipynb files) to other formats.  Output formats include asciidoc, html, latex, markdown, pdf, py, rst, script.  nbconvert can be used both as a Python library (`import nbconvert`) or as a command line tool (invoked as `jupyter nbconvert ...`)."
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "nbconvert-7.16.2-py3-none-any.whl", hash = "sha256:0c01c23981a8de0220255706822c40b751438e32467d6a686e26be08ba784382"},
-    {file = "nbconvert-7.16.2.tar.gz", hash = "sha256:8310edd41e1c43947e4ecf16614c61469ebc024898eb808cce0999860fc9fb16"},
+    {file = "nbconvert-7.16.3-py3-none-any.whl", hash = "sha256:ddeff14beeeedf3dd0bc506623e41e4507e551736de59df69a91f86700292b3b"},
+    {file = "nbconvert-7.16.3.tar.gz", hash = "sha256:a6733b78ce3d47c3f85e504998495b07e6ea9cf9bf6ec1c98dda63ec6ad19142"},
 ]
 
 [package.dependencies]
@@ -1459,7 +1459,7 @@ docs = ["ipykernel", "ipython", "myst-parser", "nbsphinx (>=0.2.12)", "pydata-sp
 qtpdf = ["nbconvert[qtpng]"]
 qtpng = ["pyqtwebengine (>=5.15)"]
 serve = ["tornado (>=6.1)"]
-test = ["flaky", "ipykernel", "ipywidgets (>=7.5)", "pytest"]
+test = ["flaky", "ipykernel", "ipywidgets (>=7.5)", "pytest (>=7)"]
 webpdf = ["playwright"]
 
 [[package]]

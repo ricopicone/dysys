@@ -20,7 +20,7 @@ H = dysys.tf(
 
 # %% [markdown]
 ## Factoring the Transfer Function
-# Get a list of transfer functions that are the canonical factors of `H`{.py}:
+# Get a list of transfer functions that are the canonical factors of `H`:
 # %%
 factors = H.factor_canonical(check=True)  # Check that the factors are correct
 
