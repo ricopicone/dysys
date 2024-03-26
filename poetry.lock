@@ -2251,20 +2251,6 @@ files = [
 ]
 
 [[package]]
-name = "slycot"
-version = "0.5.4"
-description = "A wrapper for the SLICOT control and systems library"
-category = "main"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "slycot-0.5.4.tar.gz", hash = "sha256:0bcb6e6322d955bfe696a549cb09c1f16272cbbdd09453cb82ea7193ed3d01c6"},
-]
-
-[package.dependencies]
-numpy = "*"
-
-[[package]]
 name = "snowballstemmer"
 version = "2.2.0"
 description = "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
@@ -2644,4 +2630,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "2fe52e572c3e7cf589f73cffdf209536be905eb1700684787ed205f849ffca62"
+content-hash = "aec82f0411fa6f2137e1e9e7589e4f343ad9a5f1efcf5eac0b039460a147c481"
