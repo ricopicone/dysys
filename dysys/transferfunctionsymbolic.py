@@ -9,8 +9,8 @@ class TransferFunctionSymbolic:
         if s is not None:
             self.s = s
         else:
-            self.s = sp.symbols("s", complex=True)
-            # self.s = list(H.free_symbols)[0]  # Don't need this because sp.symbols("s") is unique
+            # self.s = sp.symbols("s", complex=True)  # Should be able to but had issues
+            self.s = list(H.free_symbols)[0]  # Shouldn't need this because sp.symbols("s") is supposed to be unique. This doesn't work if there are other symbols in H
         num, den = sp.fraction(H)
         self.num = num.collect(self.s)
         self.den = den.collect(self.s)
