@@ -9,8 +9,14 @@ class TransferFunctionSymbolic:
         if s is not None:
             self.s = s
         else:
-            # self.s = sp.symbols("s", complex=True)  # Should be able to but had issues
-            self.s = list(H.free_symbols)[0]  # Shouldn't need this because sp.symbols("s") is supposed to be unique. This doesn't work if there are other symbols in H
+            self.s = sp.symbols("s", complex=True)  # This now works as long as we do the check below
+            # Check if s is in H
+            if not self.s in H.free_symbols:
+                # Try s without complex=True
+                self.s = sp.symbols("s")
+                if not self.s in H.free_symbols:
+                    if len(H.free_symbols) > 0:
+                        raise(RuntimeError(f"Symbol {self.s} not in H"))
         num, den = sp.fraction(H)
         self.num = num.collect(self.s)
         self.den = den.collect(self.s)
@@ -27,9 +33,9 @@ class TransferFunctionSymbolic:
     def __factor_p(self, p, poles=True):
         p = sp.Poly(p, self.s).factor_list()  # Factored
         if poles:
-            K = p[0]  # Overall gain
-        else:
             K = 1/p[0]  # Overall gain
+        else:
+            K = p[0]  # Overall gain
         factors = []
         for pi in p[1]:  # Each factor
             m = pi[1]  # Multiplicity
@@ -42,38 +48,30 @@ class TransferFunctionSymbolic:
                 quad = self.s**2 + cs[1]*self.s + cs[2]
                 if poles:
                     factor = wn2/quad
-                    k = k/wn2
+                    k = 1 / (k * wn2)
                 else:
                     factor = quad/wn2
-                    k = wn2/k
+                    k = k * wn2
             elif d == 1:
                 k = cs_k[1]
                 tau = cs_k[0]/k
                 lin = tau*self.s + 1
                 if poles:
-                    factor = lin
-                else:
                     factor = 1/lin
+                    k = 1 / k
+                else:
+                    factor = lin
             elif d == 0:
                 factor = 1
                 if poles:
-                    k = cs_k[0]
-                else:
                     k = 1/cs_k[0]
+                else:
+                    k = cs_k[0]
             else:
                 raise(RuntimeError(f"Polynomial should not be degree {d}"))
             for _ in range(0, m):
                 K = k*K
                 factors.append(factor)
-        return K, factors
-
-    def factor(self):
-        """Returns an overall gain and a list of standard-form terms"""
-        num, den = sp.fraction(self.H.cancel())
-        Kz, factors_z = self.__factor_p(num, poles=False)
-        Kp, factors_p = self.__factor_p(den, poles=True)
-        K = Kz * Kp
-        factors = factors_p + factors_z
         return K, factors
         
     def __num_den_lists(self, params: dict = {}):
@@ -89,6 +87,23 @@ class TransferFunctionSymbolic:
         """Returns an equivalent Control Systems package control.TransferFunction object"""
         num, den = self.__num_den_lists(params=params)
         return control.tf(num, den)
+
+    def factor(self, check=False):
+        """Returns an overall gain and a list of standard-form terms"""
+        num, den = sp.fraction(self.H.cancel())
+        Kz, factors_z = self.__factor_p(num, poles=False)
+        Kp, factors_p = self.__factor_p(den, poles=True)
+        K = Kz * Kp
+        factors = factors_p + factors_z
+        if check:
+            # Check that the factors are correct
+            H = K
+            for f in factors:
+                H *= f
+            H = H.expand(numer=True).expand(denom=True)
+            if not H.equals(self.H):
+                raise(RuntimeError(f"Factors do not multiply to {self.H} but {H}"))
+        return K, factors
     
     def poles(self):
         """Returns a dict of the symbolic poles as keys and multiplicity as values"""
@@ -155,6 +170,6 @@ if __name__ == "__main__":
     s = sp.symbols("s")
     H = (2430.0*s + 810.0)/(30.0*s**3 + 271.0*s**2 + 2439.0*s + 81.0)
     sys = tfs(H)
-    K, factors = sys.factor()
+    K, factors = sys.factor(check=True)
     print(f"Overall gain: {K}")
     print(f"Factors: {factors}")

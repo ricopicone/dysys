@@ -38,5 +38,5 @@ plt.gcf().legend(
 	list(map(lambda x: x._repr_latex_()[1:-1], [H] + factors)), 
 	loc="outside center right",
 )
-plt.savefig("bode.svg")
+# plt.savefig("bode.svg")
 plt.show()
