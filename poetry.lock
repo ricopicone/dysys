@@ -516,25 +516,25 @@ test-no-images = ["pytest", "pytest-cov", "pytest-rerunfailures", "pytest-xdist"
 
 [[package]]
 name = "control"
-version = "0.9.4"
+version = "0.10.2"
 description = "Python Control Systems Library"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "control-0.9.4-py3-none-any.whl", hash = "sha256:ab68980abd8d35ae5015ffa090865cbbd926deea7e66d0b9a41cfd12577e63ff"},
-    {file = "control-0.9.4.tar.gz", hash = "sha256:0fa57d2216b7ac4e9339c09eab6827660318a641779335864feee940bd19c9ce"},
+    {file = "control-0.10.2-py3-none-any.whl", hash = "sha256:8f7b5c58f5ccd761a6c070e3dedceca4c53c7a9cf105fcc22caba7a67f99025a"},
+    {file = "control-0.10.2.tar.gz", hash = "sha256:d0cf63f6cfb68a4c8e827c26c3744d129e9777fedc9a5d86ca4740548f23a98b"},
 ]
 
 [package.dependencies]
-matplotlib = "*"
-numpy = "*"
-scipy = ">=1.3"
+matplotlib = ">=3.6"
+numpy = ">=1.23"
+scipy = ">=1.8"
 
 [package.extras]
 cvxopt = ["cvxopt (>=1.2.0)"]
 slycot = ["slycot (>=0.4.0)"]
-test = ["pytest", "pytest-timeout"]
+test = ["numpydoc", "pytest", "pytest-timeout", "ruff"]
 
 [[package]]
 name = "cycler"
@@ -3019,4 +3019,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "4b7147c230830ef759bf5199c6408e792de42d109e1e2664311b0bd07f6d5c95"
+content-hash = "abdf8ce516fa68a90cd3546d6154a25d0c4367f20a010c9021f3d0904d081749"
