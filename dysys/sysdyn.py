@@ -41,4 +41,5 @@ class StateSpace(control.StateSpace):
     """Subclass of control.StateSpace with extra methods"""
 
     def eig(self):
-        """Returns the eigenvalue matrix Lambda"""
+        """Returns the eigenvalues and eigenvectors of the A matrix"""
+        return np.linalg.eig(self.A)

@@ -36,7 +36,6 @@ class TransferFunction(control.TransferFunction):
             else:
                 factor = poly.polyfromroots([root])
                 factor = np.flip(np.real(factor))  # $s + 1/\tau$
-                print(factor)
                 K = K*factor[-1]  # Overall gain absorbing $\tau$
                 factor = factor/factor[-1]  # $\tau s + 1$
                 k = 1  # Factor gain

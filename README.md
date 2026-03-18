@@ -84,4 +84,4 @@ plt.show()
 
 # Issues
 
-If you have issues, please report them on the [issues page](https://github.com/ricopicone/sysdynutils/issues).
+If you have issues, please report them on the [issues page](https://github.com/ricopicone/dysys/issues).

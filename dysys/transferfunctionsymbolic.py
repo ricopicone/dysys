@@ -21,7 +21,6 @@ class TransferFunctionSymbolic:
         self.num = num.collect(self.s)
         self.den = den.collect(self.s)
         self.H = self.num/self.den
-        sp.init_printing(order='grevlex')
         
     def __call__(self, s):
         """Evaluate the transfer function at a complex frequency s"""

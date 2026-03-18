@@ -14,21 +14,15 @@ class StateSpaceSymbolic:
         if E is None:
             self.E = sp.zeros(*self.B.shape)
         else:
-            raise (
-                NotImplemented(
-                    "Methods not implemented for systems with E and F matrices"
-                )
+            raise NotImplementedError(
+                "Methods not implemented for systems with E and F matrices"
             )
-            self.E = sp.Matrix(E)
         if F is None:
             self.F = sp.zeros(*self.D.shape)
         else:
-            raise (
-                NotImplemented(
-                    "Methods not implemented for systems with E and F matrices"
-                )
+            raise NotImplementedError(
+                "Methods not implemented for systems with E and F matrices"
             )
-            self.F = sp.Matrix(F)
 
     def eig(self):
         """Returns L, M: the eigenvalue and eigenvector matrices of A"""
@@ -60,7 +54,7 @@ class StateSpaceSymbolic:
 
             normalize : bool. If True, normalize the columns of P. (Default: False)
         """
-        return self.A.diagonalize(reals_only=False, sort=True, normalize=False)
+        return self.A.diagonalize(reals_only=reals_only, sort=sort, normalize=normalize)
 
     def is_diagonalizable(self, reals_only=False, **kwargs):
         """Returns ``True`` if self.A is diagonalizable.
@@ -109,7 +103,7 @@ class StateSpaceSymbolic:
     def state_response(self, t, x0=None, u=None):
         """Returns the state response for initial condition x0 and input u"""
         if x0 is None and u is None:
-            return sp.zeros(*self.A.shape[0], 1)
+            return sp.zeros(self.A.shape[0], 1)
         elif x0 is None:
             return self.state_forced_response(t, u)
         elif u is None:
@@ -120,7 +114,7 @@ class StateSpaceSymbolic:
     def output_response(self, t, x0=None, u=None):
         """Returns the output response for initial condition x0 and input u"""
         if x0 is None and u is None:
-            return sp.zeros(*self.C.shape[0], 1)
+            return sp.zeros(self.C.shape[0], 1)
         elif x0 is None:
             return self.output_forced_response(t, u)
         elif u is None:
@@ -144,4 +138,4 @@ class StateSpaceSymbolic:
 
 def sss(A, B, C, D, E=None, F=None):
     """Create a StateSpaceSymbolic object"""
-    return StateSpaceSymbolic(A, B, C, D)
+    return StateSpaceSymbolic(A, B, C, D, E=E, F=F)
